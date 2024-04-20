@@ -17,13 +17,17 @@ contract Vote is ERC721, ERC721Pausable, Ownable {
 
     event VoteCast(address indexed voter);
 
-    constructor(address initialOwner, string[] memory _candidates)
-        ERC721("ID VOTES", "ID-V")
-        Ownable(initialOwner)
-    {
+    constructor(
+        address initialOwner,
+        string[] memory _candidates
+    ) ERC721("ID VOTES", "ID-V") Ownable(initialOwner) {
         for (uint256 i = 0; i < _candidates.length; i++) {
             candidates.push(Candidate(_candidates[i], 0));
         }
+    }
+
+    function hasVote() external view returns (bool) {
+        return voters[msg.sender] ? true : false;
     }
 
     function vote(uint256 candidateId) external {
